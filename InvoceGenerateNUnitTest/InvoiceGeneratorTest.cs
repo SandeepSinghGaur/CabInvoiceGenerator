@@ -66,5 +66,21 @@ namespace InvoceGenerateNUnitTest
 
             Assert.IsTrue(data.noOfRides == expectedRides && data.totalFare == expectedFare && data.averageFare == expectedAverage);
         }
+        /// <summary>
+        /// Givens the list of rides and Type of Ride should return invoice data.
+        /// </summary>
+        [Test]
+        public void GivenListOfRides_AndTypeOfRide_Should_Return_InvoiceData()
+        {
+            rideList = new List<MultipleRide> { new MultipleRide(5, 20), new MultipleRide(3, 15), new MultipleRide(2, 10) };
+            double expectedFare = 240;
+            int expectedRides = 3;
+            double expectedAverage = expectedFare / expectedRides;
+            invoiceGenerator = new InvoiceGenerate(RideType.PREMIUM);
+
+            InvoiceData data = invoiceGenerator.GetInvoiceSummary(rideList);
+
+            Assert.IsTrue(data.noOfRides == expectedRides && data.totalFare == expectedFare && data.averageFare == expectedAverage);
+        }
     }
 }
