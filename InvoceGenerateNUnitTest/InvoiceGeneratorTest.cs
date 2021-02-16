@@ -1,11 +1,13 @@
 using CabInvoiceGenerator;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace InvoceGenerateNUnitTest
 {
     public class InvoiceGeneratorTest
     {
         InvoiceGenerate invoiceGenerator;
+        List<MultipleRide> rideList;
         [SetUp]
         public void Setup()
         {
@@ -36,6 +38,19 @@ namespace InvoceGenerateNUnitTest
             double actualFare = invoiceGenerator.CalculateTotalFare(rides);
             Assert.AreEqual(expectedFare, actualFare);
         }
-       
+        /// <summary>
+        /// Given the Multiple Ride Should Return Total fare,Total Number of Rides,Avarage Fare
+        /// </summary>
+        [Test]
+        public void GivenListOfRides_Should_Return_EnhancedInvoice()
+        {
+            rideList = new List<MultipleRide> { new MultipleRide(5, 20), new MultipleRide(3, 15), new MultipleRide(2, 10) };
+            double expectedFare = 145;
+            int expectedRides = 3;
+            double expectedAverage = expectedFare / expectedRides;
+            InvoiceData data = invoiceGenerator.GetInvoiceSummary(rideList);
+            Assert.IsTrue(data.noOfRides == expectedRides && data.totalFare == expectedFare && data.averageFare == expectedAverage);
+        }
+
     }
 }
