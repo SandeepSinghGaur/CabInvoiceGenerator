@@ -23,5 +23,19 @@ namespace InvoceGenerateNUnitTest
             double exactFare = invoiceGenerator.CalculateFare(distance, time);
             Assert.AreEqual(expectedFare, exactFare);
         }
+        /// <summary>
+        /// Givens the multiple rides should return total fare.
+        /// </summary>
+        [Test]
+        public void GivenMultipleRides_ShouldReturnTotalFare()
+        {
+            MultipleRide[] rides = {new MultipleRide(5.0,5),
+                                    new MultipleRide(0.2,1)};
+
+            double expectedFare = 60;
+            double actualFare = invoiceGenerator.CalculateTotalFare(rides);
+            Assert.AreEqual(expectedFare, actualFare);
+        }
+       
     }
 }
