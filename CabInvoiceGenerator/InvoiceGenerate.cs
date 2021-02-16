@@ -6,10 +6,11 @@ namespace CabInvoiceGenerator
 {
     public class InvoiceGenerate
     {
-        public const double COST_PERKILOMETER = 10.0;
-        public const int COST_PER_MINUTE = 1;
-        public const double MINIMUM_FARE = 5;
+        public  double COST_PERKILOMETER = 10.0;
+        public  int COST_PER_MINUTE = 1;
+        public  double MINIMUM_FARE = 5;
         double totalFare;
+        RideRepositry rideRepository = new RideRepositry();
         InvoiceSummary invoiceSummary = new InvoiceSummary();
 
         /// <summary>
@@ -85,6 +86,27 @@ namespace CabInvoiceGenerator
 
             double fare = (ride.distance * COST_PERKILOMETER) + (ride.time * COST_PER_MINUTE);
             return Math.Max(fare, MINIMUM_FARE);
+        }
+
+        /// <summary>
+        /// Add rides to dictionary according to user id
+        /// </summary>
+        /// <param name="userId"></param>
+        public void AddRides(int userId, List<MultipleRide> rideList)
+        {
+            rideRepository.Add(userId, rideList);
+        }
+
+        /// <summary>
+        /// Given user id get invoice
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public InvoiceData GetUserInvoice(int userId)
+        {
+            List<MultipleRide> rideList = rideRepository.GetRides(userId);
+            InvoiceData data = GetInvoiceSummary(rideList);
+            return data;
         }
     }
 }

@@ -51,6 +51,20 @@ namespace InvoceGenerateNUnitTest
             InvoiceData data = invoiceGenerator.GetInvoiceSummary(rideList);
             Assert.IsTrue(data.noOfRides == expectedRides && data.totalFare == expectedFare && data.averageFare == expectedAverage);
         }
+        /// <summary>
+        /// Givens the user identifier when present should return CAB invoice summary.
+        /// </summary>
+        [Test]
+        public void GivenUserId_WhenPresent_Should_Return_CabInvoiceSummary()
+        {
+            rideList = new List<MultipleRide> { new MultipleRide(5, 20), new MultipleRide(3, 15), new MultipleRide(2, 10) };
+            double expectedFare = 145;
+            int expectedRides = 3;
+            double expectedAverage = expectedFare / expectedRides;
+            invoiceGenerator.AddRides(1, rideList);
+            InvoiceData data = invoiceGenerator.GetUserInvoice(1);
 
+            Assert.IsTrue(data.noOfRides == expectedRides && data.totalFare == expectedFare && data.averageFare == expectedAverage);
+        }
     }
 }
